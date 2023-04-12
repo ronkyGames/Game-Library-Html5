@@ -28,7 +28,15 @@ ship.pos.x = w/8 - 16
 ship.pos.y = h /2 - 16
 ship.update = function(dt,t){
   //Update the player position
-  console.log("Player will move!")
+  const {pos} = this
+  pos.x += keyControls.x * dt * 200 // -1*dt*200 or +1*dt*200
+  pos.y += keyControls.y * dt * 200
+
+  // test border
+  if(pos.x < 0) pos.x = 0
+  if(pos.x > w-32) pos.x = w-32
+  if(pos.y < 0) pos.y = 0
+  if(pos.y > h - 32) pos.y = h - 32
 }
 
 //Add everithing to the scene container
