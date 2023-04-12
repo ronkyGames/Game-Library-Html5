@@ -4,8 +4,8 @@ import RonkyGames from "../RonkyGames/index.js"
 const {Container, Text, Texture, Sprite, CanvasRenderer} = RonkyGames
 
 //Game setup. code
-const w = 320
-const h = 240
+const w = 640
+const h = 300
 const renderer = new CanvasRenderer(w,h)
 document.querySelector("#board").appendChild(renderer.view)
 
@@ -16,13 +16,24 @@ const touchControls = new RonkyGames.PointerControls()
 //Game Objects
 const scene = new Container()
 
-const texture = new Texture("res/images/spaceship.png")
-for(let i=0; i< 50; i++){
-  const ship = new Sprite(texture)
-  ship.pos.x = Math.random() * w
-  ship.pos.y = Math.random() * h
-  scene.add(ship)
+//Load game textures
+const textures = {
+  background: new Texture("res/images/bg.png"),
+  spaceship: new Texture("res/images/spaceship.png")
 }
+
+//Make a spaceship
+const ship = new Sprite(textures.spaceship)
+ship.pos.x = w/8 - 16
+ship.pos.y = h /2 - 16
+ship.update = function(dt,t){
+  //Update the player position
+  console.log("Player will move!")
+}
+
+//Add everithing to the scene container
+scene.add(new Sprite(textures.background))
+scene.add(ship)
 
 //loop setup
 let dt = 0
