@@ -50,9 +50,6 @@ function spawnBaddie(x,y,speed){
   baddie.pos.y = y
   baddie.update = function(dt){
     this.pos.x += speed*dt 
-    if(this.pos.x < -32){
-      baddie.dead = true
-    }
   }
   baddies.add(baddie)
 }
@@ -75,7 +72,7 @@ ship.update = function(dt,t){
 }
 
 // Add the score game object
-const score = new Text("score:",{
+const score = new Text("score: ",{
   font : "20px sans-serif",
   fill: "#8B8994",
   align: "center"
@@ -83,6 +80,21 @@ const score = new Text("score:",{
 
 score.pos.x = w / 2
 score.pos.y = h - 30
+
+// Function game over
+function doGameOver(){
+  const gameOverMessage = new Text("Game Over",{
+    font : "30pt sans-serif",
+    fill : "#8B8994",
+    align: "center"
+  })
+  gameOverMessage.pos.x = w/2
+  gameOverMessage.pos.y = 120
+
+  scene.add(gameOverMessage)
+  scene.remove(ship)
+  gameOver = true
+}
 
 
 //Add everithing to the scene container
@@ -98,7 +110,8 @@ scene.add(score)
 let lastShot = 0
 let lastSpawn = 0
 let spawnSpeed = 1.0
-
+let scoreAmount = 0
+let gameOver = false
 //loop setup
 let dt = 0
 let last = 0
@@ -112,7 +125,7 @@ function loop(ms){
   last = t
 
   // Game Logic Code Here
-  if(keyControls.action && t - lastShot > 0.15){
+  if(!gameOver && keyControls.action && t - lastShot > 0.15){
     lastShot = t
     fireBullet(ship.pos.x +24,ship.pos.y +16)
   }
@@ -127,6 +140,30 @@ function loop(ms){
     //Accelerating for the next spawn
     spawnSpeed = spawnSpeed < 0.05 ? 0.6 : spawnSpeed*0.97 + 0.001
   }
+
+  // Check for collisions
+  baddies.children.forEach(baddie => {
+    bullets.children.forEach(bullet => {
+      // check distance between baddie and bullet
+      const dx = baddie.pos.x + 16 - (bullet.pos.x + 8)
+      const dy = baddie.pos.y +16 - (bullet.pos.y + 8)
+      if(Math.sqrt(dx*dx + dy*dy) < 24){
+        // A hit
+        baddie.dead = true
+        bullet.dead = true
+        scoreAmount += Math.floor(t)
+      }
+    })
+    //check if out of the screen
+    if(baddie.pos.x < -32){
+      if(!gameOver){
+        doGameOver()
+      }
+      baddie.dead = true
+    }
+  })
+
+  score.text = "Score: "+scoreAmount  
   
   scene.update(dt,t)
   //render the main container
