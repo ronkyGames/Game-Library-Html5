@@ -20,7 +20,8 @@ const scene = new Container()
 const textures = {
   background: new Texture("res/images/bg.png"),
   spaceship: new Texture("res/images/spaceship.png"),
-  bullet: new Texture("res/images/bullet.png")
+  bullet: new Texture("res/images/bullet.png"),
+  baddie: new Texture("res/images/baddie.png")
 }
 
 // Bullets
@@ -33,11 +34,28 @@ function fireBullet(x,y){
   bullet.pos.y = y
   bullet.update = function(dt){
     this.pos.x += 400 * dt
+    // tell to container update function that the bullet must be cancelled
+    if(bullet.pos.x >= w + 20){
+    bullet.dead = true
+    }
   }
   bullets.add(bullet)
 }
 
-
+//Bad guys
+const baddies = new Container()
+function spawnBaddie(x,y,speed){
+  const baddie = new Sprite(textures.baddie)
+  baddie.pos.x = x
+  baddie.pos.y = y
+  baddie.update = function(dt){
+    this.pos.x += speed*dt 
+    if(this.pos.x < -32){
+      baddie.dead = true
+    }
+  }
+  baddies.add(baddie)
+}
 
 //Make a spaceship
 const ship = new Sprite(textures.spaceship)
@@ -56,13 +74,30 @@ ship.update = function(dt,t){
   if(pos.y > h - 32) pos.y = h - 32
 }
 
+// Add the score game object
+const score = new Text("score:",{
+  font : "20px sans-serif",
+  fill: "#8B8994",
+  align: "center"
+})
+
+score.pos.x = w / 2
+score.pos.y = h - 30
+
+
 //Add everithing to the scene container
 scene.add(new Sprite(textures.background))
+
 scene.add(bullets)
 scene.add(ship)
+scene.add(baddies)
+
+scene.add(score)
 
 // Game state variables
 let lastShot = 0
+let lastSpawn = 0
+let spawnSpeed = 1.0
 
 //loop setup
 let dt = 0
@@ -81,10 +116,18 @@ function loop(ms){
     lastShot = t
     fireBullet(ship.pos.x +24,ship.pos.y +16)
   }
-  // Destroy bullets when they go out of the screen
-  bullets.children = bullets.children.filter(bullet => {
-    return bullet.pos.x < w + 20
-  })
+
+  // Spawn bad guys
+  if(t-lastSpawn > spawnSpeed){
+    lastSpawn = t
+    const speed = -50 - (Math.random()*Math.random()*100)
+    const position = Math.random()*(h-32)
+    spawnBaddie(w,position, speed)
+
+    //Accelerating for the next spawn
+    spawnSpeed = spawnSpeed < 0.05 ? 0.6 : spawnSpeed*0.97 + 0.001
+  }
+  
   scene.update(dt,t)
   //render the main container
   renderer.render(scene)
