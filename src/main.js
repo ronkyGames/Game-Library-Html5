@@ -19,8 +19,25 @@ const scene = new Container()
 //Load game textures
 const textures = {
   background: new Texture("res/images/bg.png"),
-  spaceship: new Texture("res/images/spaceship.png")
+  spaceship: new Texture("res/images/spaceship.png"),
+  bullet: new Texture("res/images/bullet.png")
 }
+
+// Bullets
+const bullets = new Container()
+
+// add functionality to shoot bullets
+function fireBullet(x,y){
+  const bullet = new Sprite(textures.bullet)
+  bullet.pos.x = x
+  bullet.pos.y = y
+  bullet.update = function(dt){
+    this.pos.x += 400 * dt
+  }
+  bullets.add(bullet)
+}
+
+
 
 //Make a spaceship
 const ship = new Sprite(textures.spaceship)
@@ -41,7 +58,11 @@ ship.update = function(dt,t){
 
 //Add everithing to the scene container
 scene.add(new Sprite(textures.background))
+scene.add(bullets)
 scene.add(ship)
+
+// Game state variables
+let lastShot = 0
 
 //loop setup
 let dt = 0
@@ -56,6 +77,14 @@ function loop(ms){
   last = t
 
   // Game Logic Code Here
+  if(keyControls.action && t - lastShot > 0.15){
+    lastShot = t
+    fireBullet(ship.pos.x +24,ship.pos.y +16)
+  }
+  // Destroy bullets when they go out of the screen
+  bullets.children = bullets.children.filter(bullet => {
+    return bullet.pos.x < w + 20
+  })
   scene.update(dt,t)
   //render the main container
   renderer.render(scene)
