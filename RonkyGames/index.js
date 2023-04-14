@@ -1,3 +1,5 @@
+//Math helper
+import math from "./utils/math.js"
 //container
 import Container from "./Container.js"
 //game objects
@@ -13,6 +15,7 @@ import PointerControls from "./controls/PointerControls.js"
 import Game from "./Game.js"
 
 export default{
+  math,
   CanvasRenderer,
   Container,
   Text,
