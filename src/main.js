@@ -142,8 +142,8 @@ function loop(ms){
   }
 
   // Check for collisions
-  baddies.children.forEach(baddie => {
-    bullets.children.forEach(bullet => {
+  baddies.map(baddie => {
+    bullets.map(bullet => {
       // check distance between baddie and bullet
       const dx = baddie.pos.x + 16 - (bullet.pos.x + 8)
       const dy = baddie.pos.y +16 - (bullet.pos.y + 8)

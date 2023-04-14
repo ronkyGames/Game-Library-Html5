@@ -23,6 +23,10 @@ class Container{
       return child.dead ? false : true
     })
   }
+
+  map(fun){
+    return this.children.map(fun)
+  }
 }
 
 export default Container
