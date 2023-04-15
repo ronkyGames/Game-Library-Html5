@@ -1,7 +1,7 @@
 // import libraries
 import RonkyGames from "../RonkyGames/index.js"
 
-const {Game, Container, Text, Texture, Sprite, TileSprite, math} = RonkyGames
+const {Game, Container, Texture, TileSprite, math} = RonkyGames
 
 //Game setup. code
 const game = new Game(640,320)
