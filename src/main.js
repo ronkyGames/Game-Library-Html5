@@ -22,15 +22,31 @@ const textures = {
 const cross = scene.add(new Sprite(textures.crosshair))
 cross.anchor = { x:-16,y:-16}
 cross.pos = {x:w/2,y:h/2}
+cross.dead = true
 
 //Make a spaceship
+let lastT = 0 
 const ship = new Sprite(textures.spaceship)
-ship.pos = {x:w/2-16,y:h/2-16}
+ship.anchor = {x:-16,y:-16}
+ship.pos = {x:w/2,y:h/2}
 ship.update = function(dt,t){
+  if(t-lastT > 1){
+    lastT = t
+    const flipped = math.randOneIn() // 50% probability of flip
+    flip(ship, 32, flipped)
+  }
+}
+
+function waweScale(sprite,dt,t){
   // Wobbly ship
-  const { scale } = this
+  const { scale } = sprite
   scale.x = Math.abs(Math.sin(t)) + 1
   scale.y = Math.abs(Math.sin(t * 1.33)) + 1
+}
+
+function flip(sprite,width,flip=true){
+  sprite.scale.x = flip ? -1 : 1
+  sprite.anchor.x = flip ? width : 0
 }
 
 //Add everithing to the scene container
@@ -53,7 +69,7 @@ function makeBuildings(n){
     makeRandom(b, math.rand(w))
   }
 }
- // scene.add(ship)
+ scene.add(ship)
 
 // call the loop from the game class
 game.run()
