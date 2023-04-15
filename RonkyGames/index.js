@@ -6,6 +6,7 @@ import Container from "./Container.js"
 import Text from "./Text.js"
 import Texture from "./Texture.js"
 import Sprite from "./Sprite.js"
+import TileSprite from "./TileSprite.js"
 //Renderer
 import CanvasRenderer from "./renderer/CanvasRenderer.js"
 //controls
@@ -21,6 +22,7 @@ export default{
   Text,
   Texture,
   Sprite,
+  TileSprite,
   //controls
   KeyControls, 
   PointerControls,

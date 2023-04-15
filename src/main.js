@@ -1,7 +1,7 @@
 // import libraries
 import RonkyGames from "../RonkyGames/index.js"
 
-const {Game, Container, Text, Texture, Sprite, CanvasRenderer, math} = RonkyGames
+const {Game, Container, Text, Texture, Sprite, TileSprite, math} = RonkyGames
 
 //Game setup. code
 const game = new Game(640,320)
@@ -16,13 +16,20 @@ const textures = {
   background: new Texture("res/images/bg-2.png"),
   spaceship: new Texture("res/images/spaceship.png"),
   building: new Texture("res/images/building.png"),
-  crosshair: new Texture("res/images/crosshair.png")
+  crosshair: new Texture("res/images/crosshair.png"),
+  tileSprite: new Texture("res/images/player-walk.png")
 }
 
 const cross = scene.add(new Sprite(textures.crosshair))
 cross.anchor = { x:-16,y:-16}
 cross.pos = {x:w/2,y:h/2}
 cross.dead = true
+//Animation
+const squizz = new TileSprite(textures.tileSprite,32,32)
+scene.add(squizz)
+game.run((dt,t)=>{
+  squizz.frame.x = Math.floor(t/0.1) %4
+})
 
 //Make a spaceship
 let lastT = 0 
