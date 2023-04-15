@@ -17,6 +17,7 @@ class CanvasRenderer{
         }
         ctx.save() // save context options to the default
         // Draw the leaf node
+        //child properties
         if(child.pos){
           ctx.translate(Math.round(child.pos.x), Math.round(child.pos.y))
         }
@@ -26,6 +27,14 @@ class CanvasRenderer{
         if(child.scale){
           ctx.scale(child.scale.x,child.scale.y)
         }
+        if(child.rotation){
+          const px = child.pivot ? child.pivot.x : 0
+          const py = child.pivot ? child.pivot.y : 0
+          ctx.translate(px,py) // translate to the pivot point
+          ctx.rotate(child.rotation)
+          ctx.translate(-px,-py) // return to the previous point
+        }
+        //child types
         if(child.text){
           const {font, fill, align} = child.style
           if(font) ctx.font = font

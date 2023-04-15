@@ -3,7 +3,8 @@ class Sprite{
     this.texture = texture
     this.pos = {x:0,y:0}
     this.scale = {x:1,y:1}
-    this.anchor = {x:0,y:0}
+    this.anchor = {x:0,y:0} // useful for flip and location in canvas
+    this.pivot = {x:0,y:0} // useful for rotations
   }
 }
 

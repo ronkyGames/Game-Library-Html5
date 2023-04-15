@@ -29,12 +29,9 @@ let lastT = 0
 const ship = new Sprite(textures.spaceship)
 ship.anchor = {x:-16,y:-16}
 ship.pos = {x:w/2,y:h/2}
+ship.pivot = {x:16, y:16}
 ship.update = function(dt,t){
-  if(t-lastT > 1){
-    lastT = t
-    const flipped = math.randOneIn() // 50% probability of flip
-    flip(ship, 32, flipped)
-  }
+  rotate(this,dt,t)
 }
 
 function waweScale(sprite,dt,t){
@@ -47,6 +44,19 @@ function waweScale(sprite,dt,t){
 function flip(sprite,width,flip=true){
   sprite.scale.x = flip ? -1 : 1
   sprite.anchor.x = flip ? width : 0
+}
+
+function flipUpdate(sprite,dt,t){
+  if(t-lastT > 1){
+    lastT = t
+    const flipped = math.randOneIn() // 50% probability of flip
+    flip(sprite, 32, flipped)
+  }
+}
+
+function rotate(sprite,dt,t){
+  const rds = 2*Math.PI*dt
+  sprite.rotation = rds*t
 }
 
 //Add everithing to the scene container
@@ -69,7 +79,8 @@ function makeBuildings(n){
     makeRandom(b, math.rand(w))
   }
 }
- scene.add(ship)
+scene.add(ship)
+
 
 // call the loop from the game class
 game.run()
