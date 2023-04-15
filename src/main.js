@@ -15,8 +15,13 @@ const touchControls = new RonkyGames.PointerControls()
 const textures = {
   background: new Texture("res/images/bg-2.png"),
   spaceship: new Texture("res/images/spaceship.png"),
-  building: new Texture("res/images/building.png")
+  building: new Texture("res/images/building.png"),
+  crosshair: new Texture("res/images/crosshair.png")
 }
+
+const cross = scene.add(new Sprite(textures.crosshair))
+cross.anchor = { x:-16,y:-16}
+cross.pos = {x:w/2,y:h/2}
 
 //Make a spaceship
 const ship = new Sprite(textures.spaceship)
@@ -29,8 +34,9 @@ ship.update = function(dt,t){
 }
 
 //Add everithing to the scene container
-  scene.add(new Sprite(textures.background))
+//scene.add(new Sprite(textures.background))
 
+// buildings
 const buildings = scene.add(new Container())
 const makeRandom = (b, x) => {
   // Place the building at x position, with random scale
@@ -41,21 +47,15 @@ const makeRandom = (b, x) => {
 }
 
   //Populate buildings and place at a random place from 0 to w
-  for(let x = 0; x < 50; x++){
+function makeBuildings(n){
+  for(let x = 0; x < n; x++){
     const b = buildings.add(new Sprite(textures.building))
     makeRandom(b, math.rand(w))
   }
-
-  scene.add(ship)
+}
+ // scene.add(ship)
 
 // call the loop from the game class
-game.run(dt => {
-  buildings.map(b => {
-    b.pos.x -= 100 * dt
-    if(b.pos.x < -80){
-      makeRandom(b,w)
-    }
-  })
-})
+game.run()
 
 
