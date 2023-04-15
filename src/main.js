@@ -1,5 +1,6 @@
 // import libraries
 import RonkyGames from "../RonkyGames/index.js"
+import Squizz from "./entities/Squizz.js"
 
 const {Game, Container, Texture, TileSprite, math} = RonkyGames
 
@@ -11,13 +12,8 @@ const { scene, w, h } = game
 const keyControls = new RonkyGames.KeyControls()
 const touchControls = new RonkyGames.PointerControls()
 
-//Load game textures
-const textures = {
-  tileSprite: new Texture("res/images/player-walk.png")
-}
-
 //Animation
-const squizz = new TileSprite(textures.tileSprite,32,32)
+const squizz = new Squizz()
 scene.add(squizz)
 
 game.run((dt,t)=>{
