@@ -18,9 +18,7 @@ const textures = {
 
 //Animation
 const squizz = new TileSprite(textures.tileSprite,32,32)
-
 scene.add(squizz)
-
 
 game.run((dt,t)=>{
   squizz.frame.x = Math.floor(t/0.1) %4
