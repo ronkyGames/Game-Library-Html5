@@ -31,7 +31,7 @@ ship.anchor = {x:-16,y:-16}
 ship.pos = {x:w/2,y:h/2}
 ship.pivot = {x:16, y:16}
 ship.update = function(dt,t){
-  rotate(this,dt,t)
+  rotate(this,t)
 }
 
 function waweScale(sprite,dt,t){
@@ -54,8 +54,8 @@ function flipUpdate(sprite,dt,t){
   }
 }
 
-function rotate(sprite,dt,t){
-  const rds = 2*Math.PI*dt
+function rotate(sprite,t){
+  const rds = 2*Math.PI
   sprite.rotation = rds*t
 }
 
