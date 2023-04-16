@@ -6,15 +6,16 @@ const texture = new Texture("res/images/player-walk.png")
 class Squizz extends TileSprite{
   constructor(){
     super(texture,32,32)
+    this.anchor = {x:-16, y:-16}
     //Animation variable
     this.rate = 0.1
     this.currentTime = 0
     this.currentFrame = 0
     this.frames = [
-      {x:0,y:0},
-      {x:1,y:0},
-      {x:2,y:0},
-      {x:3,y:0}
+      {x:0, y:0},
+      {x:1, y:0},
+      {x:2, y:0},
+      {x:3, y:0}
     ]
     this.frame = this.frames[this.currentFrame]
     this.speed = math.rand(20,100)
