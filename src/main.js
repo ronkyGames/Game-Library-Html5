@@ -13,12 +13,14 @@ const keyControls = new RonkyGames.KeyControls()
 const touchControls = new RonkyGames.PointerControls()
 
 //Animation
-const squizz = new Squizz()
-scene.add(squizz)
+const balls = scene.add(new Container())
+for(let i = 0; i < 100; i++){
+  const squizz =balls.add(new Squizz())
+  squizz.pos.x = math.rand(w)
+  squizz.pos.y = math.rand(h)
+}
 
-game.run((dt,t)=>{
-  squizz.frame.x = Math.floor(t/0.1) %4
-})
+game.run()
 
 
 
