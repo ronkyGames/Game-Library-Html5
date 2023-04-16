@@ -19,9 +19,17 @@ function randOneFrom(items){
   return items[rand(items.lenght)]
 }
 
+// not random functions
+function distance(a,b){
+  const dx = a.x - b.x
+  const dy = a.y - b.y
+  return Math.sqrt(dx*dx + dy*dy)
+}
+
 export default{
   rand,
   randf,
   randOneIn,
-  randOneFrom
+  randOneFrom,
+  distance
 }

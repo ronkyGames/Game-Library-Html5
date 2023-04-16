@@ -47,8 +47,8 @@ class CanvasRenderer{
           if(child.tileW){
             ctx.drawImage(
               img,
-              child.frame.x*child.tileW, // source x
-              child.frame.y*child.tileH, // source y
+              child.frame.x * child.tileW, // source x
+              child.frame.y * child.tileH, // source y
               child.tileW, child.tileH, // width and height
               0,0, // destination x,y
               child.tileW, child.tileH // destination width and height
