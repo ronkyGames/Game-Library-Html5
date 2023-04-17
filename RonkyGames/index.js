@@ -12,6 +12,7 @@ import CanvasRenderer from "./renderer/CanvasRenderer.js"
 //controls
 import KeyControls from "./controls/KeyControls.js"
 import PointerControls from "./controls/PointerControls.js"
+import AnimationManager from "./AnimManager.js"
 // Game Library
 import Game from "./Game.js"
 

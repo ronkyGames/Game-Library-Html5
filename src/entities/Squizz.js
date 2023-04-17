@@ -19,16 +19,20 @@ class Squizz extends TileSprite{
     ]
     this.frame = this.frames[this.currentFrame]
     this.speed = math.rand(20,100)
+    this.setAnims()
+  }
+
+  setAnims(){
+    const {anims} = this
+    anims.add("walk", [0,1,2,3].map(x => ({x,y:0})),0.07)
+    anims.add("idle", [{x:0,y:0}, {x:4,y:0}, {x:4,y:1}, {x:4,y:0}],0.15)
+    anims.play("walk")
   }
 
   update(dt,t){
     const {pos, speed, rate, frames} = this
-    
-    this.currentTime +=dt
-    if(this.currentTime > rate){
-      this.frame = frames[this.currentFrame++ % frames.length]
-      this.currentTime -= rate
-    }
+
+    this.anims.update(dt)
     //movement handling
     pos.x += speed*dt
   }

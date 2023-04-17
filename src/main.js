@@ -2,7 +2,7 @@
 import RonkyGames from "../RonkyGames/index.js"
 import Squizz from "./entities/Squizz.js"
 
-const {Game, PointerControls, Container, Texture, TileSprite, math} = RonkyGames
+const {Game, AnimationManager, PointerControls, Container, Texture, TileSprite, math} = RonkyGames
 
 // Game setup. code
 const game = new Game(640,320)
