@@ -9,6 +9,10 @@ class TileSprite extends Sprite {
     this.frame = {x:0,y:0}
     this.anims = new AnimationManager(this)
   }
+
+  update(dt){
+    this.anims.update(dt)
+  }
 }
 
 export default TileSprite

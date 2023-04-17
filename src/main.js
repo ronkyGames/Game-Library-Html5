@@ -33,6 +33,7 @@ game.run(()=>{
     if(pressed && math.distance(pos, b.pos) < 16){
       if(b.speed > 0 ){
         b.speed = 0
+        b.setIdle()
       }else{
         b.dead = true
       }

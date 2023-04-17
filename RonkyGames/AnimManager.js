@@ -16,7 +16,8 @@ class Anim{
     const {rate, frames} = this
     if((this.curTime += dt ) > rate){
       this.curFrame++
-      this.frame = frames[this.curFrame % frames.length]
+      this.curFrame %= frames.length
+      this.frame = frames[this.curFrame]
       this.curTime -= rate
     }
   }
