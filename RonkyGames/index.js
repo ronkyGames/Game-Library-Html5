@@ -2,6 +2,7 @@
 import math from "./utils/math.js"
 //container
 import Container from "./Container.js"
+import TileMap from "./TileMap.js"
 //game objects
 import Text from "./Text.js"
 import Texture from "./Texture.js"
@@ -20,6 +21,7 @@ export default{
   math,
   CanvasRenderer,
   Container,
+  TileMap,
   Text,
   Texture,
   Sprite,
