@@ -14,10 +14,37 @@ class Level extends TileMap{
     const level = []
     for(let y = 0; y < mapH; y++){
       for(let x = 0; x < mapW; x++){
-        level.push({
-          x:math.rand(5),
-          y:math.rand(2)
-        })
+        if(x == 0){
+          level.push({
+            x:1,
+            y:1
+          })
+        }else if(x == mapW-1){
+          level.push({
+            x:3,
+            y:1
+          })
+        }else if(y == 0){
+          level.push({
+            x:2,
+            y:1
+          })
+        }else if(y == mapH-2){
+          level.push({
+            x:4,
+            y:1
+          })
+        }else if(y== mapH-1){
+          level.push({
+            x:2,
+            y:1
+          })
+        }else{
+          level.push({
+            x:math.rand(1,5),
+            y:0
+          })
+        }
       }
     }
 

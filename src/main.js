@@ -14,6 +14,7 @@ const pointer = new PointerControls(game.renderer.view)
 const controls = new KeyControls()
 //Entities
 const squizz = new Squizz(controls)
+squizz.setIdle()
 
 
 
