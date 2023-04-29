@@ -26,10 +26,15 @@ function distance(a,b){
   return Math.sqrt(dx*dx + dy*dy)
 }
 
+function clamp(x , min, max){
+  return Math.max(min, Math.min(x, max))
+}
+
 export default{
   rand,
   randf,
   randOneIn,
   randOneFrom,
-  distance
+  distance,
+  clamp
 }

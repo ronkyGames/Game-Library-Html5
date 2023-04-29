@@ -4,10 +4,16 @@ const texture = new Texture("res/images/player-walk.png")
 
 
 class Squizz extends TileSprite{
-  constructor(){
+  constructor(controls){
     super(texture,32,32)
-    this.anchor = {x:-16, y:-16}
-    this.speed = math.rand(20,100)
+    this.anchor = {x:0, y:0}
+    this.speed = 0.15
+    // direction of travel
+    this.direction = {
+      x: 1, // -1,0,1
+      y: 0 // -1,0,1
+    }
+    this.controls = controls
     //Animation variable
     this.setAnims()
     this.setWalk()
@@ -29,11 +35,21 @@ class Squizz extends TileSprite{
     anims.play("idle")
   }
 
+  //controls
+  controls(){
+    const {x, y} = this.controls
+    if(x && x !== this.direction.x){
+      // change to horizontal movement 
+    }else if(y && y !== this.direction.y ){
+      // change to vertical movement
+    }
+  }
+
   update(dt,t){
     super.update(dt)
     const {pos, speed, rate, frames} = this
     //movement handling
-    pos.x += speed*dt
+    //pos.x += speed*dt
   }
 }
 

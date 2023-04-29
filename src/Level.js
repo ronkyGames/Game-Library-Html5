@@ -22,6 +22,14 @@ class Level extends TileMap{
     }
 
     super(level, mapW, mapH, tileSize, tileSize, texture)
+
+    this.bounds = {
+      left: tileSize,
+      right: w - tileSize * 2,
+      top: tileSize,
+      bottom: h - tileSize * 2
+    }
+    
   }
 }
 
