@@ -10,7 +10,7 @@ class Squizz extends TileSprite{
     this.speed = 0.15
     // direction of travel
     this.direction = {
-      x: 1, // -1,0,1
+      x: 0, // -1,0,1
       y: 0 // -1,0,1
     }
     this.controls = controls
@@ -36,20 +36,53 @@ class Squizz extends TileSprite{
   }
 
   //controls
-  controls(){
+  moveControls(){
     const {x, y} = this.controls
-    if(x && x !== this.direction.x){
+    if( x !== this.direction.x ){ // using && x movement is continue because check if x != 0 so if the user has released the key this has not effect, if we want to move only when the user press the keys remove && x and && y
       // change to horizontal movement 
-    }else if(y && y !== this.direction.y ){
+      this.direction.x = x
+      this.direction.y = 0
+      this.pos.y = Math.round(this.pos.y / 32)*32 // snap to a grid
+      if(x == 0){
+        this.pos.x = Math.round(this.pos.x / 32)*32 // snap to a grid
+      }
+    }else if( y !== this.direction.y ){
       // change to vertical movement
+      this.direction.x = 0
+      this.direction.y = y
+      this.pos.x = Math.round(this.pos.x / 32)*32 // snap to a grid
+      if(y == 0){
+        this.pos.y = Math.round(this.pos.y / 32)*32 // snap to a grid
+      }
+    }
+    
+  }
+
+  setFrame(){
+    // right
+    if(this.direction.x == 1){
+      this.frame.x = 1
+      this.frame.y = 0
+    }else if(this.direction.x == -1){
+      this.frame.x = 3
+      this.frame.y = 0
+    }else if(this.direction.y == 1){
+      this.frame.x = 2
+      this.frame.y = 0
+    }else if(this.direction.y == -1){
+      this.frame.x = 0
+      this.frame.y = 0
     }
   }
 
   update(dt,t){
     super.update(dt)
     const {pos, speed, rate, frames} = this
+    this.moveControls()
+    this.setFrame()
     //movement handling
-    //pos.x += speed*dt
+    pos.x += this.direction.x*dt*(32/speed)
+    pos.y += this.direction.y*dt*(32/speed)
   }
 }
 
