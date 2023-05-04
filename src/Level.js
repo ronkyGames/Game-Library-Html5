@@ -29,6 +29,11 @@ class Level extends TileMap{
             x:2,
             y:1
           })
+        }else if(y == 1){
+          level.push({
+            x:4,
+            y:1
+          })
         }else if(y == mapH-2){
           level.push({
             x:4,
@@ -53,10 +58,27 @@ class Level extends TileMap{
     this.bounds = {
       left: tileSize,
       right: w - tileSize * 2,
-      top: tileSize,
-      bottom: h - tileSize * 2
+      top: tileSize * 2,
+      bottom: h - tileSize * 3
     }
+
+    this.blank = {x:0, y:0}
+    this.startPos = {x: this.bounds.left, y: this.bounds.top}
     
+  }
+
+  checkGround(pos){
+    const {blank, lastTile} = this
+    const tile = this.tileAtPixelPos(pos)
+    if(lastTile == tile){
+      return "checked"
+    }
+    this.lastTile = tile
+    if(tile.frame !== blank ){
+      this.setFrameAtPixelPos(pos, blank)
+      return "solid"
+    }
+    return "cleared"
   }
 }
 

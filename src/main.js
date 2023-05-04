@@ -29,7 +29,7 @@ game.run(()=>{
   // Confine player pos to the bounds area
   pos.x = math.clamp(pos.x, left, right)
   pos.y = math.clamp(pos.y,top,bottom)
-
+  const ground = level.checkGround(pos)
 })
 
 
