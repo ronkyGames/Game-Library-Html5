@@ -63,7 +63,7 @@ class Level extends TileMap{
     }
 
     this.blank = {x:0, y:0}
-    this.startPos = {x: this.bounds.left, y: this.bounds.top}
+    this.startPos = {x: w/2, y: h/2}
     
   }
 

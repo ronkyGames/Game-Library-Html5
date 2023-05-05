@@ -24,6 +24,8 @@ squizz.setIdle()
 */
 const level = new Level(w*2,h*2)
 
+squizz.pos = level.startPos
+
 //Add Baddies
 const baddies = addBaddies(level)
 
@@ -41,6 +43,24 @@ function addBaddies(level){
     b.pos.x = Math.floor(level.w / 10)*1+level.tileW
   }
   return baddies
+}
+
+function updateBaddies(){
+  baddies.map(b => {
+    const { pos } = b
+    if(entity.distance(squizz,b) < 32){
+      // A hit
+      squizz.dead = true
+
+      // Send off screen for a bit
+      if(b.xSpeed) pos.x = -level.w
+      else pos.y = -level.h
+    }
+
+    // Screen Wrap
+    if(pos.x > level.w) pos.x = -32
+    if(pos.y > level.h) pos.y = -32
+  })
 }
 
 /*
@@ -63,9 +83,15 @@ game.run(()=>{
   const {pos} = squizz
   const { bounds : {top,bottom,left, right}} = level
   const centerPos = entity.center(squizz)
+
+  updateBaddies()
   
   // Confine player pos to the bounds area
   pos.x = math.clamp(pos.x, left, right)
   pos.y = math.clamp(pos.y,top,bottom)
-  const ground = level.checkGround(pos)
+  
+  const ground = level.checkGround(entity.center(squizz))
+  if(ground === "cleared"){
+    squizz.dead = true
+  }
 })

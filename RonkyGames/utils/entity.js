@@ -1,3 +1,4 @@
+import math from "./math.js"
 // return the center position of an entity
 function center(entity){
   const {pos, tileW, tileH} = entity
