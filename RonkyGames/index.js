@@ -1,5 +1,6 @@
-//Math helper
+//utils helper
 import math from "./utils/math.js"
+import entity from "./utils/entity.js"
 //container
 import Container from "./Container.js"
 import TileMap from "./TileMap.js"
@@ -18,6 +19,7 @@ import AnimationManager from "./AnimManager.js"
 import Game from "./Game.js"
 
 export default{
+  entity,
   math,
   CanvasRenderer,
   Container,
