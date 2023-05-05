@@ -4,6 +4,7 @@ import entity from "./utils/entity.js"
 //container
 import Container from "./Container.js"
 import TileMap from "./TileMap.js"
+import Camera from "./Camera.js"
 //game objects
 import Text from "./Text.js"
 import Texture from "./Texture.js"
@@ -24,6 +25,7 @@ export default{
   CanvasRenderer,
   Container,
   TileMap,
+  Camera,
   Text,
   Texture,
   Sprite,

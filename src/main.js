@@ -4,7 +4,7 @@ import Squizz from "./entities/Squizz.js"
 import Level from "./Level.js"
 
 
-const {Game, PointerControls, KeyControls, Container, Texture, TileMap, math, entity} = RonkyGames
+const {Game, PointerControls, KeyControls, Container, Camera, Texture, TileMap, math, entity} = RonkyGames
 
 // Game setup. code
 const game = new Game(640,320)
@@ -16,12 +16,27 @@ const controls = new KeyControls()
 const squizz = new Squizz(controls)
 squizz.setIdle()
 
+/* 
+  The camera should follow our main character, Squizz. The size
+  of the viewport will be the full canvas size and the size of the 
+  world is the pixel size of the level
+*/
+const level = new Level(w*2,h*2)
 
+/*
+  The camera needs to be added to the main scene, but now squizz 
+  and level should be added to the camera, not directly to the   
+  scene  
+*/
+const camera = new Camera(
+  squizz,
+  {w,h},
+  {w:level.w, h:level.h} 
+)
+scene.add(camera)
+camera.add(level)
+camera.add(squizz)
 
-const level = new Level(w,h)
-
-scene.add(level)
-scene.add(squizz)
 
 game.run(()=>{
   const {pos} = squizz
