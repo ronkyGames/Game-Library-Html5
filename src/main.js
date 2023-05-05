@@ -1,6 +1,7 @@
 // import libraries
 import RonkyGames from "../RonkyGames/index.js"
 import Squizz from "./entities/Squizz.js"
+import Baddie from "./entities/Baddie.js"
 import Level from "./Level.js"
 
 
@@ -23,6 +24,25 @@ squizz.setIdle()
 */
 const level = new Level(w*2,h*2)
 
+//Add Baddies
+const baddies = addBaddies(level)
+
+function addBaddies(level){
+  const baddies = new Container()
+  // horizontal bad guys
+  for(let i = 0; i < 5; i++){
+    const b = baddies.add(new Baddie(32*5,0))
+    b.pos.y = Math.floor(level.h/5)*i + level.tileH * 2
+  }
+
+  // vertical bad guys
+  for(let i = 0; i < 10; i++){
+    const b = baddies.add(new Baddie(0, 32*5))
+    b.pos.x = Math.floor(level.w / 10)*1+level.tileW
+  }
+  return baddies
+}
+
 /*
   The camera needs to be added to the main scene, but now squizz 
   and level should be added to the camera, not directly to the   
@@ -36,6 +56,7 @@ const camera = new Camera(
 scene.add(camera)
 camera.add(level)
 camera.add(squizz)
+camera.add(baddies)
 
 
 game.run(()=>{
