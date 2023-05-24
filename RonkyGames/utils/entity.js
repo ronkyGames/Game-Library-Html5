@@ -15,7 +15,36 @@ function distance(a,b){
   return math.distance(center(a),center(b))
 }
 
+// bounds of entity for collisions
+function bounds(entity){
+  const {w, h, pos, hitBox} = entity
+  const hit = hitBox || {x:0, y:0, w, h}
+  return {
+    x: hit.x +pos.x,
+    y: hit.y +pos.y,
+    w: hit.w -1,
+    h: hit.h -1
+  }
+}
+
+function hit(e1,e2){
+  const a = bounds(e1)
+  const b = bounds(e2)
+  return a.x +a.w >= b.x && a.x <= b.x+b.w && a.y +a.h >= b.y && a.y <= b.y + b.h
+}
+// perform a callback function when one entity of a container is hit by the principal entity
+function hits(entity, container, hitCallback){
+  const e1 = entity
+  container.map(e2 =>{
+    if(hit(e1,e2)){
+      hitCallback(e2)
+    }
+  })
+}
+
 export default{
   center,
-  distance
+  distance,
+  bounds,
+  hit
 }

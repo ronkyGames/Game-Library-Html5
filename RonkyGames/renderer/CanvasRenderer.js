@@ -42,6 +42,10 @@ class CanvasRenderer{
           if(align) ctx.textAlign = align
           ctx.fillText(child.text,0,0)
         }
+        else if(child.name == 'rectangle'){
+          ctx.fillStyle = child.style.fill
+          ctx.fillRect(0,0,child.w, child.h)
+        }
         else if(child.texture){
           const img = child.texture.img
           if(child.tileW){

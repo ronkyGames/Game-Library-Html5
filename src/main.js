@@ -1,35 +1,36 @@
 // import libraries
 import RonkyGames from "../RonkyGames/index.js"
 // all screens
-import LogoScreen from "./screens/LogoScreen.js"
-import TitleScreen from "./screens/TitleScreen.js"
-import GameScreen from "./screens/GameScreen.js"
-//import GameOverScreen from "./screen/GameOverScreen.js"
+import Mouse from "./entities/Mouse.js"
+import Cheese from "./entities/Cheese.js"
 
-
-const {Game, KeyControls, math} = RonkyGames
+const {Game, KeyControls, math, entity} = RonkyGames
 
 // Game setup. code
-const game = new Game(640,640)
+const game = new Game(640,320)
+const {scene, w, h} = game
 // controls
 const controls = new KeyControls()
 
-function titleScreen(){
-  game.scene = new TitleScreen(game, controls, newGame)
+//entities
+const mouse = new Mouse(new KeyControls())
+const cheese = new Cheese()
+
+scene.add(mouse)
+scene.add(cheese)
+
+const relocate = e =>{
+  const {pos} = e
+  pos.x = math.rand(w)
+  pos.y = math.rand(h)
 }
 
-function gameOverScreen(result){
-  game.scene = new GameOverScreen(game, controls, result, titleScreen)
-}
+relocate(mouse)
+relocate(cheese)
 
-function newGame(){
-  game.scene = new GameScreen(game, controls, gameOverScreen)
-}
-
-function log(){
-  console.log("Screen started!")
-}
-
-game.scene = new LogoScreen(game, titleScreen)
-
-game.run()
+game.run(()=>{
+  // Bounding-box detection
+  if(entity.hit(mouse,cheese)){
+    relocate(cheese)
+  }
+})
