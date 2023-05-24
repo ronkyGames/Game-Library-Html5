@@ -13,10 +13,10 @@ class Squizz extends TileSprite{
       x: 0, // -1,0,1
       y: 0 // -1,0,1
     }
-    this.controls = controls
+    if(controls) this.controls = controls
     //Animation variable
     this.setAnims()
-    this.setWalk()
+    this.setIdle()
   }
 
   setAnims(){
@@ -78,7 +78,7 @@ class Squizz extends TileSprite{
   update(dt,t){
     super.update(dt)
     const {pos, speed, rate, frames} = this
-    this.moveControls()
+    if(this.controls) this.moveControls()
     this.setFrame()
     //movement handling
     pos.x += this.direction.x*dt*(32/speed)

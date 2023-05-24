@@ -4,13 +4,14 @@ import Squizz from "../entities/Squizz.js"
 import Baddie from "../entities/Baddie.js"
 import Level from "../Level.js"
 
-const {Game, PointerControls, KeyControls, Container, Camera, Texture, TileMap, math, entity} = RonkyGames
+const {Container, Camera, TileMap, math, entity} = RonkyGames
 
 class GameScreen extends Container{
   constructor(game, controls){
     super()
     // initialization code
     const { w, h } = game
+    const unit = math.setUnit(w,h,20)
     //Entities
     const squizz = new Squizz(controls)
     squizz.setIdle()
@@ -25,20 +26,26 @@ class GameScreen extends Container{
     const camera = this.add( 
       new Camera(
         squizz,
-        {w,h},
+        {w: w,h: h-3*unit},
         {w:level.w, h:level.h} 
       )
     )
 
+    
+    
+
     camera.add(level)
     camera.add(squizz)
     camera.add(baddies)
+
+    // 
     
     // keep references to things we need in upudate
     this.level = level
     this.camera = camera
     this.squizz = squizz
     this.baddies = baddies
+
     
   }
 
@@ -79,12 +86,12 @@ class GameScreen extends Container{
 
   update(dt,t){
     super.update(dt,t)
+    
     //Game Screen Update Code
     const {squizz, level} = this
     const {pos} = squizz
     const { bounds : {top,bottom,left, right}} = level
     const centerPos = entity.center(squizz)
-
     this.updateBaddies()
   
     // Confine player pos to the bounds area

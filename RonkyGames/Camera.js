@@ -42,12 +42,32 @@ class Camera extends Container{
     pos.y = y
     
   }
+
+  cameraView(){
+    const minX = this.pos.x
+    const minY = this.pos.y
+    const maxX = minX + this.w
+    const maxY = minY + this.h
+    function setVisible(child){
+      if(child.children){
+        setVisible(child.children)
+        console.log(`in children:${child}`)
+      }else{
+        console.log(child)
+        child.map(c => {
+          c.visible = true
+        })
+      }
+    }
+    setVisible(this.children)
+  }
   
   update(dt,t){
     super.update(dt,t) // this is important!!!
     
     if(this.subject){
       this.focus()
+      this.cameraView()
     }
   }
 }

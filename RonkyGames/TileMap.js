@@ -17,6 +17,8 @@ class TileMap extends Container{
      s.frame = frame
      s.pos.x = i % mapW * tileW
      s.pos.y = Math.floor(i / mapW) * tileH
+     // set visible to false turn true if camera see it
+     s.visible = true
      return s
    })
   }
@@ -53,6 +55,16 @@ class TileMap extends Container{
 
   setFrameAtPixelPos(pos, frame){
     return this.setFrameAtMapPos(this.pixelToMapPos(pos),frame)
+  }
+
+  setVisibleAtMapPos(mapPos,visible = true){
+    const tile = this.tileAtMapPos(mapPos)
+    tile.visible = visible
+    return tile
+  }
+
+  setVisibleAtPixelPos(pos,visible = true){
+    return this.setVisibleAtMapPos(this.pixelTMapPos(pos),visible)
   }
   
 }

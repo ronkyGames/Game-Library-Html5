@@ -45,6 +45,12 @@ class KeyControls{
     // defult option
     return 0
   }
+
+  reset(){
+    for(let key in this.keys){
+      this.keys[key] = false
+    }
+  }
   
 } // END CLASS
 

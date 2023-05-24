@@ -30,11 +30,26 @@ function clamp(x , min, max){
   return Math.max(min, Math.min(x, max))
 }
 
+function boolClamp(x, min, max){
+  return x == clamp(x,min,max)
+}
+
+function setUnit(w,h, n){
+    if(w < h){
+      return Math.floor(w/n)
+    }else{
+      return Math.floor(h/n)
+    }
+  return 0
+  }
+
 export default{
   rand,
   randf,
   randOneIn,
   randOneFrom,
   distance,
-  clamp
+  clamp,
+  boolClamp,
+  setUnit
 }
