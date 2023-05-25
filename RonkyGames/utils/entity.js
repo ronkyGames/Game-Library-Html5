@@ -46,5 +46,6 @@ export default{
   center,
   distance,
   bounds,
-  hit
+  hit,
+  hits
 }

@@ -4,7 +4,7 @@ import RonkyGames from "../RonkyGames/index.js"
 import Mouse from "./entities/Mouse.js"
 import Cheese from "./entities/Cheese.js"
 
-const {Game, KeyControls, math, entity} = RonkyGames
+const {Game, KeyControls, Container, math, entity} = RonkyGames
 
 // Game setup. code
 const game = new Game(640,320)
@@ -14,10 +14,10 @@ const controls = new KeyControls()
 
 //entities
 const mouse = new Mouse(new KeyControls())
-const cheese = new Cheese()
+const cheeses = new Container()
 
 scene.add(mouse)
-scene.add(cheese)
+scene.add(cheeses)
 
 const relocate = e =>{
   const {pos} = e
@@ -25,12 +25,16 @@ const relocate = e =>{
   pos.y = math.rand(h)
 }
 
+for(let i=1; i<=10; i++){
+ const cheese = cheeses.add(new Cheese())
+  relocate(cheese)
+}
+
 relocate(mouse)
-relocate(cheese)
 
 game.run(()=>{
   // Bounding-box detection
-  if(entity.hit(mouse,cheese)){
+  entity.hits(mouse, cheeses, cheese =>{
     relocate(cheese)
-  }
+  })
 })
