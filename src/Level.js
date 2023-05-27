@@ -22,7 +22,13 @@ class Level extends TileMap{
     const levelIndex = Array(mapW*mapH).fill(0)
 
     // make a random dungeon
-
+    for(let y= 0; y< mapH; y++){
+      for(let x = 0; x < mapW; x++){
+        // Define the dungeon walls
+        levelIndex[y * mapW + x] = math.randOneFrom([0,0,1])
+      }
+    }
+    
     // trasform the level array in array of tileIndexes 
     // to be used by canvas renderer
     const level = levelIndex.map(i=> tileIndexes[i])

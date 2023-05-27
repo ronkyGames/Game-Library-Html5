@@ -16,7 +16,7 @@ function randOneIn(max=2){
 
 // return one random item in array 
 function randOneFrom(items){
-  return items[rand(items.lenght)]
+  return items[rand(items.length)]
 }
 
 // not random functions
