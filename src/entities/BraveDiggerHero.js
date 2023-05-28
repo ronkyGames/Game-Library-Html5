@@ -1,12 +1,14 @@
 import RonkyGames from "../../RonkyGames/index.js"
 const { TileSprite, Texture, math } = RonkyGames
-const texture = new Texture("res/images/player-walk.png")
+const texture = new Texture("res/images/bravedigger-tiles.png")
 
 
-class Squizz extends TileSprite{
+class BraveDiggerHero extends TileSprite{
   constructor(controls){
-    super(texture,32,32)
-    this.anchor = {x:0, y:0}
+    const tileSize = 48
+    super(texture,tileSize,tileSize)
+    this.anchor = {x:-tileSize/2, y:-tileSize/2}
+    this.pivot = {x: tileSize/2, y: tileSize/2}
     this.speed = 0.15
     // direction of travel
     this.direction = {
@@ -21,8 +23,8 @@ class Squizz extends TileSprite{
 
   setAnims(){
     const {anims} = this
-    anims.add("walk", [0,1,2,3].map(x => ({x,y:0})),0.07)
-    anims.add("idle", [{x:0,y:0}, {x:4,y:0}, {x:4,y:1}, {x:4,y:0}],0.15)
+    anims.add("walk", [0,1,2,3,4].map(x => ({x,y:0})),0.07)
+    anims.add("idle", [{x:0,y:4}, {x:0,y:5}],1)
   }
 
   setWalk(){
@@ -42,48 +44,52 @@ class Squizz extends TileSprite{
       // change to horizontal movement 
       this.direction.x = x
       this.direction.y = 0
-      this.pos.y = Math.round(this.pos.y / 32)*32 // snap to a grid
+      this.pos.y = Math.round(this.pos.y / tileSize)*tileSize // snap to a grid
       if(x == 0){
-        this.pos.x = Math.round(this.pos.x / 32)*32 // snap to a grid
+        this.pos.x = Math.round(this.pos.x / tileSize)*tileSize // snap to a grid
       }
     }else if( y !== this.direction.y ){
       // change to vertical movement
       this.direction.x = 0
       this.direction.y = y
-      this.pos.x = Math.round(this.pos.x / 32)*32 // snap to a grid
+      this.pos.x = Math.round(this.pos.x / tileSize)*tileSize // snap to a grid
       if(y == 0){
-        this.pos.y = Math.round(this.pos.y / 32)*32 // snap to a grid
+        this.pos.y = Math.round(this.pos.y / tileSize)*tileSize // snap to a grid
       }
     }
     
   }
 
-  setFrame(){
+  setOrientation(){
     // right
     if(this.direction.x == 1){
-      this.frame.x = 1
-      this.frame.y = 0
+      this.rotation = 0
+      this.scale.x = 1
+      this.scale.y = 1
     }else if(this.direction.x == -1){
-      this.frame.x = 3
-      this.frame.y = 0
+      this.rotation = 0
+      this.scale.x = -1
+      this.scale.y = 1
     }else if(this.direction.y == 1){
-      this.frame.x = 2
-      this.frame.y = 0
+      this.rotation = 90
+      this.scale.x = 1
+      this.scale.y = 1
     }else if(this.direction.y == -1){
-      this.frame.x = 0
-      this.frame.y = 0
+      this.rotation = 180
+      this.scale.x = -1
+      this.scale.y = 1
     }
   }
 
   update(dt,t){
     super.update(dt)
-    const {pos, speed, rate, frames} = this
+    const {pos, speed,tileSize, rate, frames} = this
     if(this.controls) this.moveControls()
-    this.setFrame()
+    this.setOrientation()
     //movement handling
-    pos.x += this.direction.x*dt*(32/speed)
-    pos.y += this.direction.y*dt*(32/speed)
+    pos.x += this.direction.x*dt*(tileSize/speed)
+    pos.y += this.direction.y*dt*(tileSize/speed)
   }
 }
 
-export default Squizz
+export default BraveDiggerHero

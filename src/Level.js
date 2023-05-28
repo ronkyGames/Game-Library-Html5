@@ -4,9 +4,9 @@ const {Texture, TileMap, math} = RonkyGames
 const texture = new Texture("res/images/bravedigger-tiles.png")
 
 const tileIndexes = [
-  {id: 'empty', x:0, y:2},
-  {id: 'wall', x:2, y:2},
-  {id: 'wall_end', x:3,y:2}
+  {id: 'empty', x:0, y:2, walkable: true},
+  {id: 'wall', x:2, y:2, walkable: false},
+  {id: 'wall_end', x:3,y:2, walkable: false}
 ]
 
 class Level extends TileMap{
