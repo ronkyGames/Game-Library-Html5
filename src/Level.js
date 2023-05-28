@@ -25,7 +25,36 @@ class Level extends TileMap{
     for(let y= 0; y< mapH; y++){
       for(let x = 0; x < mapW; x++){
         // Define the dungeon walls
-        levelIndex[y * mapW + x] = math.randOneFrom([0,0,1])
+        // 1. Map borders
+        if(y === 0 || x === 0 || y === mapH - 1 || x === mapW - 1){
+          levelIndex[math.indexPosition(x,y,mapW)]  =  1
+          continue
+        } 
+        // 2. Grid Points - randomly skip some to make 'rooms'
+        if(y % 2 || x % 2 || math.randOneIn(4)){
+          continue // don't draw a wall
+        }
+
+        // 3. Side Walls - pick a random direction
+        const [x0,y0] = math.randOneFrom([[0,-1],[0,1],[1,0],[-1,0]])
+        levelIndex[math.indexPosition(x+x0,y+y0,mapW)] = 1
+        levelIndex[math.indexPosition(x,y,mapW)] = 1
+      }
+    }
+
+    // check if below of a wall is empty in this case the cell is substituted by wall-end
+    for(let y = 0; y < mapH ; y++){
+      for(let x = 0; x < mapW; x++){
+          if(levelIndex[math.indexPosition(x,y,mapW)] == 1){
+            if(math.indexPosition(x,y+1,mapW) < levelIndex.length){
+              if(levelIndex[math.indexPosition(x,y+1,mapW)] == 0) levelIndex[math.indexPosition(x,y,mapW)] = 2
+              continue
+            }
+            else{
+              levelIndex[math.indexPosition(x,y,mapW)] = 2
+              continue
+            }
+          }        
       }
     }
     

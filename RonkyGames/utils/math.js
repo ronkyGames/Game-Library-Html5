@@ -43,6 +43,10 @@ function setUnit(w,h, n){
   return 0
   }
 
+function  indexPosition(x,y,w){
+    return y * w + x
+  }
+
 export default{
   rand,
   randf,
@@ -51,5 +55,6 @@ export default{
   distance,
   clamp,
   boolClamp,
-  setUnit
+  setUnit,
+  indexPosition
 }
