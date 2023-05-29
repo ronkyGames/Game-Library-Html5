@@ -1,5 +1,5 @@
 import RonkyGames from "../../RonkyGames/index.js"
-const { TileSprite, Texture, math } = RonkyGames
+const { TileSprite, Texture, math, entity} = RonkyGames
 const texture = new Texture("res/images/bravedigger-tiles.png")
 
 
@@ -45,21 +45,22 @@ class BraveDiggerHero extends TileSprite{
   //controls
   moveControls(){
     const {x, y} = this.controls
+    const {tileW, tileH} = this
     if( x !== this.direction.x ){ // using && x movement is continue because check if x != 0 so if the user has released the key this has not effect, if we want to move only when the user press the keys remove && x and && y
       // change to horizontal movement 
       this.direction.x = x
       this.direction.y = 0
-      this.pos.y = Math.round(this.pos.y / tileSize)*tileSize // snap to a grid
+      this.pos.y = Math.round(this.pos.y / tileH)*tileH // snap to a grid
       if(x == 0){
-        this.pos.x = Math.round(this.pos.x / tileSize)*tileSize // snap to a grid
+        this.pos.x = Math.ceil(this.pos.x / tileW)*tileW // snap to a grid
       }
     }else if( y !== this.direction.y ){
       // change to vertical movement
       this.direction.x = 0
       this.direction.y = y
-      this.pos.x = Math.round(this.pos.x / tileSize)*tileSize // snap to a grid
+      this.pos.x = Math.round(this.pos.x / tileW)*tileW // snap to a grid
       if(y == 0){
-        this.pos.y = Math.round(this.pos.y / tileSize)*tileSize // snap to a grid
+        this.pos.y = Math.ceil(this.pos.y / tileH)*tileH // snap to a grid
       }
     }
     
@@ -68,25 +69,25 @@ class BraveDiggerHero extends TileSprite{
   setOrientation(w){
     // right
     if(this.direction.x == 1){
-      this.anchor ={x:0,y:0}
+      const {anchor,scale} = entity.flipX(this,false) 
+      this.anchor = anchor
       this.rotation = 0
-      this.scale.x = 1
-      this.scale.y = 1
+      this.scale = scale
     }else if(this.direction.x == -1){
-      this.anchor ={x:w/2,y:0}
+      this.anchor = entity.flipX(this,true).anchor
       this.rotation = 0
-      this.scale.x = -1
-      this.scale.y = 1
+      this.scale = entity.flipX(this,true).scale
     }else if(this.direction.y == 1){
-      this.anchor = {x:0,y:0}
+      const {anchor,scale} = entity.flipX(this,false) 
       this.rotation = 90
-      this.scale.x = 1
-      this.scale.y = 1
+      this.anchor = anchor
+      this.scale = scale
     }else if(this.direction.y == -1){
-      this.anchor = {x:0,y:0}
       this.rotation = -90
       this.scale.x = 1
       this.scale.y = 1
+    }else{
+      this.anchor = {x:0,y:0}
     }
   }
 

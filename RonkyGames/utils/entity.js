@@ -42,10 +42,26 @@ function hits(entity, container, hitCallback){
   })
 }
 
+// flip entity 
+function flipX(e,flipped = true){
+  const {anchor, scale, tileW} = e
+  scale.x = flipped ? -1 : 1
+  anchor.x = flipped ? tileW : 0
+  return {anchor, scale}
+}
+
+function flipY(e,flipped = true){
+  const {anchor, scale, tileH} = e
+  scale.y = flipped ? -1 : 1
+  anchor.y = flipped ? tileH : 0
+  return {anchor, scale}
+}
+
 export default{
   center,
   distance,
   bounds,
   hit,
-  hits
+  hits,
+  flipX, flipY
 }
