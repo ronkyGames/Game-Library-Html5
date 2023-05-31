@@ -47,26 +47,31 @@ class BraveDiggerHero extends TileSprite{
     const {x, y} = this.controls
     const {tileW, tileH} = this
     if( x !== this.direction.x ){ // using && x movement is continue because check if x != 0 so if the user has released the key this has not effect, if we want to move only when the user press the keys remove && x and && y
-      // change to horizontal movement 
+      // change to horizontal movement
+      this.snapToGrid()
       this.direction.x = x
       this.direction.y = 0
-      this.pos.y = Math.round(this.pos.y / tileH)*tileH // snap to a grid
-      if(x == 0){
-        this.pos.x = Math.ceil(this.pos.x / tileW)*tileW // snap to a grid
-      }
     }else if( y !== this.direction.y ){
       // change to vertical movement
+      this.snapToGrid()
       this.direction.x = 0
       this.direction.y = y
-      this.pos.x = Math.round(this.pos.x / tileW)*tileW // snap to a grid
-      if(y == 0){
-        this.pos.y = Math.ceil(this.pos.y / tileH)*tileH // snap to a grid
-      }
     }
-    
   }
 
-  setOrientation(w){
+  snapToGrid(){
+    const {x, y} = this.controls
+    const {tileW, tileH} = this
+    if( this.direction.x !== 0){
+      this.pos.y = Math.round(this.pos.y / tileH)*tileH
+      if( x == 0) this.pos.x = Math.round(this.pos.x / tileW)*tileW
+    }else if(this.direction.y !== 0){
+      this.pos.x = Math.round(this.pos.x/tileW)*tileW
+      if(y == 0) this.pos.y = Math.round(this.pos.y/tileH)*tileH
+    }
+  }
+
+  setOrientation(){
     // right
     if(this.direction.x == 1){
       const {anchor,scale} = entity.flipX(this,false) 
@@ -83,23 +88,25 @@ class BraveDiggerHero extends TileSprite{
       this.anchor = anchor
       this.scale = scale
     }else if(this.direction.y == -1){
+      const {anchor,scale} = entity.flipX(this,false)
       this.rotation = -90
-      this.scale.x = 1
-      this.scale.y = 1
-    }else{
-      this.anchor = {x:0,y:0}
+      this.anchor = anchor
+      this.scale = scale
     }
   }
 
   update(dt,t){
     super.update(dt)
     const {pos, speed, tileW, tileH} = this
-    if(this.controls) this.moveControls()
+    if(this.controls) {
+      this.moveControls()
+      this.snapToGrid()
+    }
     // set animation 
     const walk = this.setWalk()
     if(!walk) this.setIdle()
     
-    this.setOrientation(tileW)
+    this.setOrientation()
     //movement handling
     pos.x += this.direction.x*dt*(tileW/speed)
     pos.y += this.direction.y*dt*(tileH/speed)
