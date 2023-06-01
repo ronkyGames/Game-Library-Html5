@@ -66,6 +66,20 @@ class TileMap extends Container{
   setVisibleAtPixelPos(pos,visible = true){
     return this.setVisibleAtMapPos(this.pixelTMapPos(pos),visible)
   }
+
+  tilesAtCorners(bounds, xo = 0, yo = 0){
+    return [
+      [bounds.x,bounds.y],, // Top left corner
+      [bounds.x + bounds.w, bounds.y], // Top right corner
+      [bounds.x, bounds.y + bounds.h], // Bottom left corner
+      [bounds.x +bounds.w, bounds.y + bounds.h] // Bottom right corner
+    ].map(
+      ([x,y]) => this.tileAtPixelPos({ // get any element of the original array
+        x: x + xo,                      // create an array of tiles respect
+        y: y + yo                        // the position given
+      })                                // xo, yo are the future offset were entity want walk
+    )                                  // must be checked before the walk
+  }
   
 }
 

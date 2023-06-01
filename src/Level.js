@@ -1,5 +1,6 @@
-import RonkyGames from "../RonkyGames/index.js"
-const {Texture, TileMap, math} = RonkyGames
+import Texture from "../RonkyGames/Texture.js"
+import TileMap from "../RonkyGames/TileMap.js"
+import math from "../RonkyGames/utils/math.js"
 
 const texture = new Texture("res/images/bravedigger-tiles.png")
 
@@ -67,29 +68,18 @@ class Level extends TileMap{
           mapW, mapH, 
           tileSize, tileSize, 
           texture)
-
-    this.bounds = {
-      left: tileSize,
-      right: w - tileSize * 2,
-      top: tileSize * 2,
-      bottom: h - tileSize * 3
-    }
+    this.initialPosition = this.mapToPixelPos({x:2,y:1})
     
   }
 
-  checkGround(pos){
-    const {blank, lastTile} = this
-    const tile = this.tileAtPixelPos(pos)
-    if(lastTile == tile){
-      return "checked"
-    }
-    this.lastTile = tile
-    if(tile.frame !== blank ){
-      this.setFrameAtPixelPos(pos, blank)
-      return "solid"
-    }
-    return "cleared"
+  setInitialPosition(){
+    const walkableTiles = this.children.filter((t) => {
+      return t.frame.walkable
+    })
+    const initialTile = math.randOneFrom(walkableTiles)
+    return initialTile.pos
   }
+  
 }
 
 export default Level

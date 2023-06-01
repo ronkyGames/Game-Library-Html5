@@ -1,15 +1,19 @@
-import RonkyGames from "../../RonkyGames/index.js"
-const { TileSprite, Texture, math, entity} = RonkyGames
+import TileSprite from "../../RonkyGames/TileSprite.js"
+import Texture from "../../RonkyGames/Texture.js"
+import entity from "../../RonkyGames/utils/entity.js"
+import deadInTracks from "../../RonkyGames/movement/deadInTracks.js"
+
 const texture = new Texture("res/images/bravedigger-tiles.png")
 
-
 class BraveDiggerHero extends TileSprite{
-  constructor(controls){
+  constructor(controls, map){
     const tileSize = 48
     super(texture,tileSize,tileSize)
     this.anchor = {x:0, y:0}
     this.pivot = {x: tileSize/2, y: tileSize/2}
     this.speed = 0.15
+    this.map = map
+    this.pos = map.initialPosition
     // direction of travel
     this.direction = {
       x: 0, // -1,0,1
@@ -45,7 +49,7 @@ class BraveDiggerHero extends TileSprite{
   //controls
   moveControls(){
     const {x, y} = this.controls
-    const {tileW, tileH} = this
+    
     if( x !== this.direction.x ){ // using && x movement is continue because check if x != 0 so if the user has released the key this has not effect, if we want to move only when the user press the keys remove && x and && y
       // change to horizontal movement
       this.snapToGrid()
@@ -97,7 +101,7 @@ class BraveDiggerHero extends TileSprite{
 
   update(dt,t){
     super.update(dt)
-    const {pos, speed, tileW, tileH} = this
+    const {pos, map, speed, tileW, tileH} = this
     if(this.controls) {
       this.moveControls()
       this.snapToGrid()
@@ -107,10 +111,14 @@ class BraveDiggerHero extends TileSprite{
     if(!walk) this.setIdle()
     
     this.setOrientation()
-    //movement handling
-    pos.x += this.direction.x*dt*(tileW/speed)
-    pos.y += this.direction.y*dt*(tileH/speed)
-    
+    //offset of the future position
+    const xo = this.direction.x*dt*(tileW/speed)
+    const yo = this.direction.y*dt*(tileH/speed)
+
+    // can we move to this position
+    const ds = deadInTracks(this, map, xo, yo)
+    pos.x += ds.x
+    pos.y += ds.y
   }
 }
 
