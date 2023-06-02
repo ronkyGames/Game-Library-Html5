@@ -3,27 +3,17 @@
 import Game from "../RonkyGames/Game.js"
 import KeyControls from "../RonkyGames/controls/KeyControls.js"
 
-console.log('start')
-
-// import level
-import Level from "./Level.js"
-
-// Entities
-import BraveDiggerHero from "./entities/BraveDiggerHero.js"
+// import Screens
+import GameScreen from "./screens/GameScreen.js"
 
 // Game setup. code
-const game = new Game(640,640)
-const {scene, w, h} = game
-// controls
+const game = new Game(640,480)
+
 const controls = new KeyControls()
 
-// create level
-const level = new Level(w,h)
-scene.add(level)
+const gameScreen = new GameScreen(game,controls)
 
-//entities
-const hero = new BraveDiggerHero(controls, level)
-scene.add(hero)
+game.scene.add(gameScreen)
 
 game.run(()=>{
   
