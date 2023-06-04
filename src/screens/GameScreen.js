@@ -9,6 +9,8 @@ import entity from "../../RonkyGames/utils/entity.js"
 import Level from "../Level.js"
 //entities
 import BraveDiggerHero from "../entities/BraveDiggerHero.js"
+import Pickup from"../entities/Pickup.js"
+
 class GameScreen extends Container{
   constructor(game, controls){
     super()
@@ -16,8 +18,13 @@ class GameScreen extends Container{
     const {w, h} = game
     //map
     const map = new Level(w*2,h*2) 
+    this.map = map
     //Entities
     const hero = new BraveDiggerHero(controls,map)
+    // array of pickups
+    const pickups = new Container()
+    this.pickups = pickups
+    this.populate()
 
     // add camera centered on player
     const camera = this.add(
@@ -30,7 +37,21 @@ class GameScreen extends Container{
 
     camera.add(map)
     camera.add(hero)
+    camera.add(pickups)
     
+  }
+
+  update(dt,t){
+    super.update(dt,t)
+  }
+
+  // helper methods
+  populate(){
+    const { pickups, map } = this
+    for(let i = 0; i < 5; i++){
+      const p = pickups.add(new Pickup())
+      p.pos = map.findFreeSpot()
+    }
   }
 }
 

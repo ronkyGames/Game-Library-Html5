@@ -79,6 +79,22 @@ class Level extends TileMap{
     const initialTile = math.randOneFrom(walkableTiles)
     return initialTile.pos
   }
+
+  findFreeSpot(){
+    const {mapW, mapH} = this
+    let found = false
+    let x,y
+    while(!found){
+      // choose random tile
+      x = math.rand(mapW)
+      y = math.rand(mapH)
+      const {frame } = this.tileAtMapPos({ x, y})
+      if(frame.walkable){
+        found = true
+      }
+    }
+    return this.mapToPixelPos({x,y})
+  }
   
 }
 
